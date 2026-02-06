@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Para ti 💕</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin:0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(#ffb6c1,#ffe4e1);
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    
+    .heart {
+        position: absolute;
+        bottom: -20px;
+        animation: float 6s linear infinite;
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-120vh) scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    .sobre {
+        background: white;
+        width: 280px;
+        height: 180px;
+        border-radius: 12px;
+        box-shadow: 0 0 25px pink;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        text-align: center;
+        transition: transform 0.5s;
+        padding: 20px;
+    }
+
+    .sobre:hover {
+        transform: scale(1.05);
+    }
+    .sobre h2 {
+        font-family:'Dancing Script', cursive;
+        font-size: 36px;
+        margin: 0;
+    }
+
+    .carta {
+        display: none;
+        background: white;
+        width: 90%;
+        max-width: 500px;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 0 30px hotpink;
+        text-align: center;
+        z-index: 10;
+        position: relative;
+    }
+
+    .carta p {
+        font-family:'Dancing Script', cursive;
+        font-size: 22px;
+        min-height: 30px;
+    }
+
+    button {
+        
+            animation: latido 1.5s infinite;
+    }
+
+    @keyframes latido {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+      button {
+            margin-top: 20px;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 20px;
+        background: hotpink;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+
+        position: relative;
+        z-index: 9999;
+        }
+
+    button:hover {
+        background: deeppink;
+    }
+    .corazon-final {
+        font-size: 120px;
+        animation: aparecer 1.5s ease-out;
+}
+@keyframes aparecer {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+    </style>
+    </head>
+
+    <body>
+
+    <div class="sobre" id="sobre" onclick="abrirCarta()">
+        <h2>💌</h2>
+        <p>Toca para abrir</p>
+    </div>
+
+    <div class="carta" id="carta">
+        <p id="texto"></p>
+        <button id="boton">Continuar</button>
+    </div>
+
+    <script>
+        function crearCorazon() {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = Math.random() * 25 + 15 + "px";
+            heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 7000);
+        }
+
+        setInterval(crearCorazon, 300);
+
+        const sobre = document.getElementById("sobre");
+        const carta = document.getElementById("carta");
+
+        function abrirCarta() {
+            sobre.style.display = "none";
+            sobre.style.display = "block";
+            escribirTexto();
+            const audio = document.getElementById("musica");
+            if (audio) {
+                audio.play().catch(() => {})
+            }
+        };
+
+const mensajes = [
+  "Holis 💖",
+  "Esta carta no fue hecha con papel.",
+  "Fue hecha con mucho tiempo, cariño y código.",
+  "La pensé con calma, porque quería que fuera especial.",
+  "Es solo una pequeña parte de mi regalo para ti.",
+  "Feliz San Valentín ❣️",
+  "Espero de corazón que esta cartita te guste.",
+  "Gracias por estar.",
+  "Te quiero mucho 💓"
+];
+        
+
+        let mensajeActual = 0;
+        let letra = 0;
+        let escribiendo = false;
+
+        function escribirTexto() {
+            escribiendo = true;
+            if (letra < mensajes[mensajeActual].length) {
+                document.getElementById("texto").innerHTML += mensajes[mensajeActual].charAt(letra);
+                letra++;
+                setTimeout(escribirTexto, 50);
+                } else {
+                    escribiendo = false;
+                }
+        }
+
+        function abrirCarta() {
+            document.getElementById("sobre").style.display = "none";
+            document.getElementById("carta").style.display = "block";
+            escribirTexto();
+
+            const audio = document.getElementById("musica");
+            if (audio) {
+                audio.play();
+            }
+        }
+        function siguiente() {
+            if (escribiendo) return;
+
+            mensajeActual++;
+
+            if (mensajeActual < mensajes.length) {
+                document.getElementById("texto").innerHTML = "";
+                letra = 0;
+                escribirTexto();
+            } else {
+                document.getElementById("texto").innerHTML = "<div class='corazon-final'>❤️</div><p>Para ti</p>";
+            document.getElementById("boton").style.display = "none";
+            }
+        }
+        function mostrarCorazonFinal() {
+            document.getElementById("texto").innerHTML = "<div class='corazon-final'>❤️</div><p>Para ti</p>";
+        }
+        const boton = document.getElementById("boton");
+
+        boton.addEventListener("click", function () {
+            siguiente();
+        });
+
+        boton.addEventListener("touchstart", function() {
+            siguiente();
+        });
+    </script>
+    <audio id="musica" loop>
+        <source src="like-you-do.mp3" type="audio/mpeg">
+    </audio>
+
+    </body>
+    </html>
